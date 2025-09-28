@@ -18,7 +18,7 @@ COPY . /app/
 EXPOSE 8000
 
 # Migrate + runserver (chạy qua docker-compose command)
-CMD python manage.py migrate  && python manage.py collectstatic --noinput && gunicorn travel_chatbot_app.wsgi:application --bind 0.0.0.0:8000
+CMD python manage.py migrate  && gunicorn travel_chatbot_app.wsgi:application --bind 0.0.0.0:8000
 
 #Dev
 # CMD python manage.py migrate && python manage.py runserver
