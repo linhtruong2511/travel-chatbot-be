@@ -26,10 +26,8 @@ SECRET_KEY = 'django-insecure-4s&b%l0+=j6b8*0$xm(k2wk7^scwg3hil7jwc8chyovd6ru!o5
 # SECURITY WARNING: don't run with debug turned on in production!
 # From .env
 DEBUG = True
-if (os.environ.get("PRODUCTION", False)):
+if (os.environ.get("PRODUCTION", True)):
     DEBUG = False
-
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -46,6 +44,7 @@ INSTALLED_APPS = [
 
 
     'travel',
+    'chatbot',
 ]
 
 MIDDLEWARE = [
@@ -88,7 +87,7 @@ DATABASES = {
         "NAME": "travel_db",
         "USER": "travel_user",
         "PASSWORD": "travel_pass",
-        "HOST": "db",   # hostname của service postgres trong docker-compose
+        "HOST": 'db',   # hostname của service postgres trong docker-compose
         "PORT": "5432",
     }
 }
@@ -128,10 +127,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
@@ -139,6 +137,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-ALLOWED_HOSTS = ["travel.ninjadev.online", "45.117.179.60", 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ["travel.ninjadev.online", "45.117.179.60", 'localhost:3000', '127.0.0.1']
 CORS_ALLOW_ALL_ORIGINS = True
 
