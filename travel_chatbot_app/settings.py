@@ -87,7 +87,7 @@ DATABASES = {
         "NAME": "travel_db",
         "USER": "travel_user",
         "PASSWORD": "travel_pass",
-        "HOST": 'localhost',   # hostname của service postgres trong docker-compose
+        "HOST": 'db',   # hostname của service postgres trong docker-compose
         "PORT": "5432",
     }
 }
