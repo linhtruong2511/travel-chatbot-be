@@ -2,14 +2,14 @@ from django.db import models
 
 
 class Tour(models.Model):
-    name = models.TextField(max_length=255)
+    name = models.TextField(max_length=255, blank=True)
     duration = models.IntegerField(default=0, blank=True)
     duration_detail = models.TextField(default="", blank=True)
-    min_budget = models.IntegerField(default=0)
-    max_budget = models.IntegerField(default=0)
-    budget_detail = models.TextField(default="")
-    budget_current = models.TextField(default="")
-    rate = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
+    min_budget = models.IntegerField(default=0, blank=True)
+    max_budget = models.IntegerField(default=0, blank=True)
+    budget_detail = models.TextField(default="", blank=True)
+    budget_current = models.TextField(default="", blank=True)
+    rate = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, blank=True)
     tags = models.CharField(max_length=100, blank=True)
     thumbnail = models.ImageField(upload_to="tours/", null=True, blank=True)
     location = models.CharField(max_length=500, default="", blank=True)
