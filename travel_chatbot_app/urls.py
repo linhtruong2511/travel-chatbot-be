@@ -24,6 +24,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('travel/', include('travel.urls')),
     path('chatbot/', include('chatbot.urls')),
+    path('customer/', include('customer.urls')),
+    path('auth/', include('users.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

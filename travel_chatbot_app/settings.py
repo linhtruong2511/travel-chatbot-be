@@ -16,7 +16,6 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
@@ -26,9 +25,8 @@ SECRET_KEY = 'django-insecure-4s&b%l0+=j6b8*0$xm(k2wk7^scwg3hil7jwc8chyovd6ru!o5
 # SECURITY WARNING: don't run with debug turned on in production!
 # From .env
 DEBUG = True
-if (os.environ.get("PRODUCTION", True)):
+if os.environ.get("PRODUCTION") == "True":
     DEBUG = False
-
 
 # Application definition
 
@@ -41,8 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     "corsheaders",
-
-
+    'rest_framework_simplejwt',
+    'customer',
+    'users',
     'travel',
     'chatbot',
 ]
@@ -77,9 +76,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'travel_chatbot_app.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+HOST = 'db'
+if os.environ.get("PRODUCTION") == "True":
+    HOST = 'localhost'
 
 DATABASES = {
     "default": {
@@ -87,11 +88,10 @@ DATABASES = {
         "NAME": "travel_db",
         "USER": "travel_user",
         "PASSWORD": "travel_pass",
-        "HOST": 'db',   # hostname của service postgres trong docker-compose
+        "HOST": HOST,  # hostname của service postgres trong docker-compose
         "PORT": "5432",
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -111,7 +111,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
@@ -122,7 +121,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
@@ -137,11 +135,15 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-ALLOWED_HOSTS = ["travel.ninjadev.online", "45.117.179.60", 'localhost:3000', '127.0.0.1']
+ALLOWED_HOSTS = ["travel.ninjadev.online", "45.117.179.60", 'localhost:3000', '127.0.0.1', 'localhost']
 CORS_ALLOW_ALL_ORIGINS = True
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 12
+    'PAGE_SIZE': 12,
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
 }
 
+AUTH_USER_MODEL = 'users.Users'

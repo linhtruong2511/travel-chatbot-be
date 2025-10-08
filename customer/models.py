@@ -9,6 +9,8 @@ class Customer(models.Model):
     zalo = models.CharField(max_length=100, null=True)
     facebook = models.CharField(max_length=100, null=True)
     address = models.CharField(max_length=100, null=True)
+    age = models.IntegerField(null=True)
+
 
 class Contact(models.Model):
     topic = models.CharField(max_length=100)

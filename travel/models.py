@@ -34,3 +34,7 @@ class Note(models.Model):
 class TourImages(models.Model):
     tour = models.ForeignKey(Tour, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="tours/")
+
+class Comment(models.Model):
+    tour = models.ForeignKey(Tour, on_delete=models.CASCADE, related_name='comments')
+    text = models.TextField()
