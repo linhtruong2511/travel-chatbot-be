@@ -39,3 +39,16 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = Users.objects.all()
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    def create(self, request, *args, **kwargs):
+        user = Users.objects.create_user(
+            username=request.data.get('username'),
+            email=request.data.get('email'),
+            password=request.data.get('password'),
+            first_name=request.data.get('first_name'),
+            last_name=request.data.get('last_name'),
+            phone=request.data.get('phone'),
+            address=request.data.get('address'),
+            age=request.data.get('age'),
+        )
+        serializer = UserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
