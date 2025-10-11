@@ -24,3 +24,5 @@ class Contact(models.Model):
     address = models.CharField(max_length=100, null=True, blank=True)
     age = models.IntegerField(null=True, blank=True)
     message = models.TextField(blank=True)
+    status = models.CharField(max_length=100, null=True, blank=True, default="pending")
+    timestamp = models.DateTimeField(auto_now_add=True)
