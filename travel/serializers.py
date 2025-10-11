@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Tour, TourImages, Description, Note, Comment
+from .models import Tour, TourImages, Description, Note
 
 
 class DescriptionSerializer(serializers.ModelSerializer):
@@ -13,15 +13,10 @@ class NoteSerializer(serializers.ModelSerializer):
         model = Note
         fields = '__all__'
         extra_kwargs = {"tour": {"read_only": True}}
-class CommentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Comment
-        fields = '__all__'
 
 class TourSerializer(serializers.ModelSerializer):
     descriptions = DescriptionSerializer(many=True)
     notes = NoteSerializer(many=True)
-    comments = CommentSerializer(many=True)
 
     class Meta:
         model = Tour
