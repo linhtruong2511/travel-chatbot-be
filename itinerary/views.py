@@ -12,6 +12,7 @@ class ItineraryListCreateView(generics.ListCreateAPIView):
     queryset = Itinerary.objects.all()
     serializer_class = ItinerarySerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 

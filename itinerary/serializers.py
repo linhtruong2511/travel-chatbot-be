@@ -6,14 +6,14 @@ from users.serializers import UserSerializer
 class ActivitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Activity
-        fields = '__all__'
+        fields = ['id', 'description', 'order' ]
 
 class DaySerializer(serializers.ModelSerializer):
     activities = ActivitySerializer(many=True)
 
     class Meta:
         model = Day
-        fields = '__all__'
+        fields = ['id', 'title', 'activities', 'order']
 
     def create(self, validated_data):
         activities_data = validated_data.pop('activities', [])
@@ -36,12 +36,12 @@ class DaySerializer(serializers.ModelSerializer):
 
 
 class ItinerarySerializer(serializers.ModelSerializer):
-    days = DaySerializer(many=True, read_only=True)
+    days = DaySerializer(many=True)
     author = UserSerializer(read_only=True)
 
     class Meta:
         model = Itinerary
-        fields = '__all__'
+        fields = ['id', 'name', 'is_public', 'created_at', 'updated_at', 'author', 'days']
 
     def create(self, validated_data):
         days_data = validated_data.pop('days', [])
