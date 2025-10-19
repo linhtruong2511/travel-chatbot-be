@@ -14,9 +14,12 @@ class ItineraryListCreateView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def list(self, request, *args, **kwargs):
-        itineraries = Itinerary.objects.filter(author=self.request.user)
-        serializer = ItinerarySerializer(itineraries, many=True)
-        return Response(serializer.data)
+        itineraries = self.queryset.filter(author=request.user)
+        page = self.paginate_queryset(itineraries)
+        if page is not None:
+            serializer = ItinerarySerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        return Response(ItinerarySerializer(itineraries, many=True).data)
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
@@ -33,9 +36,12 @@ class ChangeStatus(APIView):
         itinerary.save()
         return Response(status=status.HTTP_200_OK)
 
-class GetAllItinerary(APIView):
+class GetAllItinerary(generics.ListAPIView):
     permission_classes = [AllowAny]
     def get(self, request, *args, **kwargs):
-        itinerary = Itinerary.objects.filter(is_public=True)
-        serializer = ItinerarySerializer(itinerary, many=True)
-        return Response(serializer.data)
+        itineraries = Itinerary.objects.filter(is_public=True)
+        page = self.paginate_queryset(itineraries)
+        if page is not None:
+            serializer = ItinerarySerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        return Response(ItinerarySerializer(itineraries, many=True).data)
